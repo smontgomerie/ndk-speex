@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "slots.h"
 
@@ -143,8 +144,10 @@ JNIEXPORT jbyteArray JNICALL Java_com_purplefrog_speexjni_SpeexEncoder_encode
     speex_encoder_ctl(gob->state, SPEEX_GET_FRAME_SIZE, &frame_size);
 
     if (nSamples != frame_size) {
-	throwIllegalArgumentException(env, "mismatch between proper frame size and supplied sample array");
-	return;
+      char buffer [236];
+      sprintf(buffer, "mismatch between proper frame size and supplied sample array (%d -> %d)", frame_size, nSamples);
+      throwIllegalArgumentException(env, buffer);
+	  return;
     }
 
     //

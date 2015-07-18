@@ -1,5 +1,5 @@
 
-JDK_HOME=/opt/sun-jdk-1.6.0.31
+JDK_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_71.jdk/Contents/Home
 
 SPEEX_HOME=/home/thoth/vendor/speex-1.2rc1
 
@@ -77,11 +77,11 @@ libspeex2.so: $(SRCS1)
 
 
 
-libspeex.jar: $(JSRC)
+libspeex.jar: $(JSRC) Makefile
 	mkdir -p target/classes
-	javac $(JSRC) -d target/classes
-	jar cf $@ target/classes
-
+	$(JDK_HOME)/bin/javac $(JSRC) -d target/classes
+	cd target/classes
+	$(JDK_HOME)/bin/jar cvf $@  -C target/classes .
 
 frustration: frustration.c
 	$(CC) -g -std=c99 -I$(SPEEX_HOME)/include $<  $(SPEEX_LIB) -lm -o $@
